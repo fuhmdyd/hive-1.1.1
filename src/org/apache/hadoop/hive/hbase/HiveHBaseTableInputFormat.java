@@ -115,6 +115,7 @@ public class HiveHBaseTableInputFormat extends TableInputFormatBase
       @Override
       public void close() throws IOException {
         recordReader.close();
+        closeTable();
       }
 
       @Override
@@ -506,4 +507,12 @@ public class HiveHBaseTableInputFormat extends TableInputFormatBase
 
     return results;
   }
+    @Override
+    protected void finalize() throws Throwable {
+      try {
+        closeTable();
+      } finally {
+        super.finalize();
+      }
+    }
 }
